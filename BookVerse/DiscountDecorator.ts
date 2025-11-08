@@ -31,3 +31,16 @@ export class PercentageDiscount extends BookDiscountDecorator{
         return Number(discount.toFixed(2));
     }
 }
+
+export class DigitalOnlyDiscount extends BookDiscountDecorator{
+    constructor(inner:Book,private readonly percentOff:number){
+        super(inner);
+    }
+    getPrice(): number {
+        if(this.inner.isDigit()){
+            const discounted = this.inner.getPrice()*(1-this.percentOff/100);
+            return Number(discounted.toFixed(2));
+        }
+        return this.inner.getPrice();
+    }
+}
